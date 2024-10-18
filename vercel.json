@@ -6,9 +6,7 @@
       "use": "@vercel/node",
       "config": {
         "runtime": "nodejs",
-        "installCommand": "bun install",
-        "buildCommand": "bun build src/index.ts",
-        "outputDirectory": "dist"
+        "installCommand": "bun install"
       }
     }
   ],
