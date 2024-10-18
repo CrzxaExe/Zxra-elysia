@@ -10,6 +10,5 @@
         "buildCommand": "bun build"
       }
     }
-  ],
-  "output": "build"
+  ]
 }
