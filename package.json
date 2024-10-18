@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.5ely",
+  "version": "1.0.5-ely",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts"
