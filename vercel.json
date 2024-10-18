@@ -7,15 +7,14 @@
       "config": {
         "runtime": "nodejs",
         "installCommand": "bun install",
-        "buildCommand": "bun build src/index.ts",
-        "outputDirectory": "dist"
+        "buildCommand": "buqn run src/index.ts"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/$1"
+      "dest": "./src/index.ts"
     }
   ]
 }
