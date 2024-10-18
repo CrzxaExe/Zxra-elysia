@@ -7,7 +7,7 @@
       "config": {
         "runtime": "nodejs",
         "installCommand": "bun install",
-        "buildCommand": "bun build"
+        "buildCommand": "bun run build"
       }
     }
   ]
