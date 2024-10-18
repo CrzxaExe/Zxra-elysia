@@ -7,8 +7,15 @@
       "config": {
         "runtime": "nodejs",
         "installCommand": "bun install",
-        "buildCommand": "bun run build"
+        "buildCommand": "bun build src/index.ts",
+        "outputDirectory": "dist"
       }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/dist/$1"
     }
   ]
 }
