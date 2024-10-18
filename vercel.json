@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "**/**/**/*",
+      "src": "**/*",
       "use": "@vercel/node",
       "config": {
         "runtime": "nodejs",
@@ -12,8 +12,8 @@
   ],
   "routes": [
     {
-      "src": "(.*)",
-      "dest": "index.ts"
+      "src": "/(.*)",
+      "dest": "./server"
     }
   ]
 }
