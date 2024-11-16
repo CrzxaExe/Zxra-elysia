@@ -12,11 +12,11 @@ export default (app: ElysiaApp) =>
     try {
       await OpenDB();
 
-      const apikey = await handleApikey(key);
+      const apikey = await handleApikey(key, false);
       if (!apikey) return { error: "Apikey not found or invalid" };
 
       const users = await Account.find({});
-      console.log(apikey);
+      console.log(users.length);
 
       return {
         endpoint: "/user",
@@ -24,9 +24,10 @@ export default (app: ElysiaApp) =>
         data: users,
       };
     } catch (error) {
+      const { message } = error;
       return {
         error: "Error to get users",
-        dt: error,
+        dt: message,
       };
     } finally {
       await CloseDB();

@@ -3,10 +3,8 @@ import Apikey from "../models/apikey";
 import { CloseDB, OpenDB } from "./connection";
 import { generateUUID } from "./generate";
 
-export const handleApikey = async (id: string) => {
+export const handleApikey = async (id: string, close: boolean = true) => {
   try {
-    await OpenDB();
-
     const apikey = await Apikey.findOne({ id });
 
     if (!apikey) return false;
@@ -19,7 +17,7 @@ export const handleApikey = async (id: string) => {
   } catch (error) {
     return { error: "Error handle apikey" };
   } finally {
-    await CloseDB();
+    if (close) await CloseDB();
   }
 };
 
