@@ -16,14 +16,13 @@ export default (app: ElysiaApp) =>
       if (!apikey) return { error: "Apikey not found or invalid" };
 
       const users = await Account.find({});
-      console.log(users.length);
 
       return {
         endpoint: "/user",
         ...output,
         data: users,
       };
-    } catch (error) {
+    } catch (error: Error | any) {
       const { message } = error;
       return {
         error: "Error to get users",

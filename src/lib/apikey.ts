@@ -8,6 +8,9 @@ export const handleApikey = async (id: string, close: boolean = true) => {
     const apikey = await Apikey.findOne({ id });
 
     if (!apikey) return false;
+
+    if (apikey.limit.use + 1 > apikey.limit.max)
+      throw new Error("Max limit uses");
     await Apikey.findOneAndUpdate(
       { id },
       { $set: { "limit.use": apikey.limit.use + 1 } }
@@ -15,13 +18,13 @@ export const handleApikey = async (id: string, close: boolean = true) => {
 
     return true;
   } catch (error) {
-    return { error: "Error handle apikey" };
+    throw new Error("Error on handle Apikey");
   } finally {
     if (close) await CloseDB();
   }
 };
 
-export const CreateApikey = async (name: string) => {
+export const CreateApikey = async (name: string, close: boolean = true) => {
   try {
     await OpenDB();
     const id = generateUUID(25);
@@ -37,6 +40,6 @@ export const CreateApikey = async (name: string) => {
   } catch (error) {
     return { error };
   } finally {
-    await CloseDB();
+    if (close) await CloseDB();
   }
 };

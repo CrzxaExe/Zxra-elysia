@@ -1,6 +1,6 @@
 import * as mks from "./../../package.json";
 
 export const output = {
-  app: process.env.APP_NAME,
+  app: "Zxra Rest Ely",
   version: mks.version,
 };
