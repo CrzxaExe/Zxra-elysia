@@ -43,3 +43,15 @@ export const CreateApikey = async (name: string, close: boolean = true) => {
     if (close) await CloseDB();
   }
 };
+
+export const resetLimitAllPlayers = async (close: boolean = true) => {
+  try {
+    await OpenDB();
+
+    Apikey.updateMany({}, { $set: { "limit.use": 0 } });
+  } catch (error) {
+    return { error };
+  } finally {
+    if (close) await CloseDB();
+  }
+};
