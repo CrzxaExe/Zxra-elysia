@@ -4,6 +4,13 @@ import { CloseDB, OpenDB } from "../../lib/connection";
 import { output } from "../../lib/data";
 import Account from "../../models/account";
 
+interface Usr {
+  name: string;
+  userID: string | null;
+  status: string | null;
+  image: string;
+}
+
 export default (app: ElysiaApp) =>
   app.get("/", async ({ query }: { query: { key: string } }) => {
     const key = query?.key;
@@ -17,16 +24,25 @@ export default (app: ElysiaApp) =>
 
       const users = await Account.find({});
 
+      const parsedUsers: Usr[] = users.map((e) => {
+        return {
+          name: e.name,
+          userID: e.userID,
+          status: e.status,
+          image: e.image,
+        };
+      });
+
       return {
         endpoint: "/user",
         ...output,
-        data: users,
+        data: parsedUsers,
       };
     } catch (error: Error | any) {
       const { message } = error;
       return {
         error: "Error to get users",
-        dt: message,
+        message,
       };
     } finally {
       await CloseDB();

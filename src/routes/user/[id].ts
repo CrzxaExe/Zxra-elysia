@@ -4,6 +4,13 @@ import { CloseDB, OpenDB } from "../../lib/connection";
 import { output } from "../../lib/data";
 import Account from "../../models/account";
 
+interface Usr {
+  name: string;
+  userID: string | null;
+  status: string | null;
+  image: string;
+}
+
 export default (app: ElysiaApp) =>
   app.get(
     "/",
@@ -14,28 +21,36 @@ export default (app: ElysiaApp) =>
       params: { id: string };
       query: { key: string };
     }) => {
-      const userID = params?.id || "";
+      const id = params?.id || "";
       const key = query?.key || "";
 
       if (!key) return { error: "Missing key" };
-      if (!userID) return { error: "Missing id" };
+      if (!id) return { error: "Missing id" };
 
       try {
         await OpenDB();
 
-        const apikey = await handleApikey(key);
+        const apikey = await handleApikey(key, false);
 
         if (!apikey) return { error: "Apikey not found" };
-        const users = await Account.find({ userID });
+        const user: Usr[] | any = await Account.find({ userID: id });
+
+        const { name, status, image, userID } = user[0];
 
         return {
           endpoint: "/user",
           ...output,
-          data: users,
+          data: {
+            name,
+            userID,
+            status,
+            image,
+          },
         };
-      } catch (error) {
+      } catch (error: Error | any) {
         return {
-          error,
+          error: "Error on handle user",
+          message: error.message,
         };
       } finally {
         await CloseDB();

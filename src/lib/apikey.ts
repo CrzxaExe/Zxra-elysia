@@ -5,6 +5,7 @@ import { generateUUID } from "./generate";
 
 export const handleApikey = async (id: string, close: boolean = true) => {
   try {
+    await OpenDB();
     const apikey = await Apikey.findOne({ id });
 
     if (!apikey) return false;

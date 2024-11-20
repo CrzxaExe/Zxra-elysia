@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { ElysiaApp } from "../..";
 
 import { output } from "../../lib/data";
+import { handleApikey } from "../../lib/apikey";
 
 const apikey: any = process.env.GEMINI;
 const genAI = new GoogleGenerativeAI(apikey);
@@ -10,14 +11,24 @@ const genAI = new GoogleGenerativeAI(apikey);
 export default (app: ElysiaApp) =>
   app
     .onError((error) => {
-      console.log(error);
+      console.error(error);
     })
     .post(
       "/",
-      async ({ query: { prompt } }) => {
-        try {
-          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      async ({
+        query: { prompt, key },
+      }: {
+        query: { prompt: string; key: string };
+      }) => {
+        console.log(key);
+        if (!prompt) return { error: "Prompt is missing" };
+        if (!key) return { error: "Key is missing" };
 
+        try {
+          const apikey = await handleApikey(key);
+
+          if (!apikey) return { error: "Apikey invalid" };
+          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
           const ans = await model.generateContent(prompt);
 
           return {
@@ -33,6 +44,7 @@ export default (app: ElysiaApp) =>
       {
         query: t.Object({
           prompt: t.String(),
+          key: t.String(),
         }),
       }
     );
