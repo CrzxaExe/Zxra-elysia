@@ -20,7 +20,6 @@ export default (app: ElysiaApp) =>
       }: {
         query: { prompt: string; key: string };
       }) => {
-        console.log(key);
         if (!prompt) return { error: "Prompt is missing" };
         if (!key) return { error: "Key is missing" };
 
@@ -40,7 +39,6 @@ export default (app: ElysiaApp) =>
           return { error: err.message };
         }
       },
-
       {
         query: t.Object({
           prompt: t.String(),

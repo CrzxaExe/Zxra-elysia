@@ -17,6 +17,9 @@ export default (app: ElysiaApp) =>
         },
       };
     } catch (err: any) {
-      return { error: err.message };
+      return {
+        error: "Error on get application performance",
+        message: err.message,
+      };
     }
   });

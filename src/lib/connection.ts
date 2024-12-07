@@ -1,4 +1,5 @@
 import mongoose, { Connection } from "mongoose";
+import chalk from "chalk";
 
 let defaultConnection: Connection | null = null;
 
@@ -11,7 +12,7 @@ export const OpenDB = async () => {
     const db = await mongoose.connect(mongo);
 
     defaultConnection = db.connection;
-    console.log("Connected to database");
+    console.log(chalk.cyan("[System]") + "Connected to database");
   } catch (error) {
     console.error({
       error: "Connection Error",
@@ -26,7 +27,7 @@ export const CloseDB = async () => {
     await defaultConnection.close();
     defaultConnection = null;
 
-    console.log("Close Database");
+    console.log(chalk.cyan("[System]") + "Close Database");
   } catch (error) {
     console.log({
       error: "Error on close database",

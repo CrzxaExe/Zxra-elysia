@@ -3,6 +3,7 @@ import { staticPlugin } from "@elysiajs/static";
 import { helmet } from "elysia-helmet";
 import { cors } from "@elysiajs/cors";
 import { autoroutes } from "elysia-autoroutes";
+import chalk from "chalk";
 
 const app = new Elysia()
   .use(cors())
@@ -16,7 +17,9 @@ const app = new Elysia()
   .listen(4000);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `${chalk.cyan("[System]")} 🦊 Elysia is running at ${app.server?.hostname}:${
+    app.server?.port
+  }`
 );
 
 export type ElysiaApp = typeof app;
